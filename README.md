@@ -1,2 +1,2 @@
 # Pokedex
-Implementation of a Pokedex in GO to deepen my understanding of the language.
+Implementation of the Pokedex Project from boot.dev using GO using [PokeAPI](https://pokeapi.co/) including Caching.
