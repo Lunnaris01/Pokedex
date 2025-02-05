@@ -96,7 +96,24 @@ type PokemonEncounter struct {
 
 
 type PokemonSimplified struct{
+	Id int `json:"id"`
 	Name string `json:"name"`
 	BaseExp int `json:"base_experience"`
-
+	Height int `json:"height"`
+	Weight int `json:"weight"`
+	Stats []struct {
+		Stat struct{
+			Name string `json:"name"`
+			ULR string `json:"url"`
+		} `json:"stat"`
+		Effort int `json:"effort"`
+		Base_stat int `json:"base_stat"`
+	} `json:"stats"`
+	Types []struct {
+		Slot int `json:"slot"`
+		Type struct {
+			Name string `json:"name"`
+			URL string `json:"url"`
+		} `json:"type"`
+	}`json:"types"`
 }

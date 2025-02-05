@@ -55,6 +55,18 @@ func RegisterCliCommands(){
 			Description: "Attempt to catch a POKEMON",
 			Callback: CommandCatch,
 		},
+		"inspect": {
+			Name: "inspect <POKEMON>",
+			Description: "Inspect a POKEMON in your Pokedex",
+			Callback: CommandInspect,
+		},
+		"pokedex": {
+			Name: "pokedex",
+			Description: "List the Pokemon in your Pokedex",
+			Callback: CommandPokedex,
+		},
+
+
 	}
 }
 
@@ -247,4 +259,39 @@ func register_to_pokedex(pokemon models.PokemonSimplified) {
 	Pokedex[pokemon.Name] = pokemon
 	fmt.Printf("A new Pokemon! We now have %d Pokemons in our Pokedex!\n",len(Pokedex))
 	}
+}
+
+func CommandInspect(cfg *models.CliCommandConfig) error {
+	if len(cfg.Arguments) == 0 {
+		return errors.New("Which pokemon do you want to inspect")
+	}
+	pokemon, ok := Pokedex[cfg.Arguments[0]]
+	if !ok{
+		return errors.New("Unseen Pokemon")
+	}
+    fmt.Printf("Name %s\n: ", pokemon.Name)
+	fmt.Printf("Height: %d\n", pokemon.Height)
+	fmt.Printf("Weight: %d\n", pokemon.Weight)
+	fmt.Printf("Stats:\n")
+	for _, stat := range pokemon.Stats{
+		fmt.Printf("-%s: %d\n",stat.Stat.Name,stat.Base_stat)
+	}
+	fmt.Printf("Types:\n")
+	for _, ctype := range pokemon.Types{
+		fmt.Printf("- %s\n",ctype.Type.Name)
+	}
+	return nil
+}
+
+func CommandPokedex(cfg *models.CliCommandConfig) error {
+	fmt.Println("Inspecting our Pokedex ...")
+	if len(Pokedex) == 0 {
+		fmt.Println("... you haven't caught any Pokemon yet!")
+		return errors.New("Pokedex Empty!")
+	}
+	fmt.Println("Your Pokedex:")
+	for name, _ := range Pokedex{
+		fmt.Printf(" - %s\n", strings.Title(name))
+	}
+	return nil
 }
